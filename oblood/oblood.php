@@ -14,7 +14,4 @@ require 'core/App.php';
 
 \oblood\core\App::run();
 
-
-
-new \oblood\core\q();
 /************邪恶的分割线程序结束*************/
