@@ -64,6 +64,23 @@ abstract class Object
         }
     }
 
+    public static function instance($option = [], $attribute = [])
+    {
+        $reflectionClass = new \ReflectionClass(self::className());
+
+        if (empty($attribute) && empty($option)) {
+            return $reflectionClass->newInstance();
+        }
+
+        $clazz = $reflectionClass->newInstance($option);
+
+        foreach($attribute as $key => $value) {
+            $clazz->$key = $value;
+        }
+
+        return $clazz;
+    }
+
     /**
      * 获取当前类名
      * @return string

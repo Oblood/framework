@@ -11,4 +11,8 @@ namespace application\Controller\Index;
 
 class IndexController{
 
+    public function index() {
+        echo 111;
+    }
+
 }

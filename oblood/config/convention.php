@@ -8,6 +8,9 @@ return [
 
     'APPLICATION_CONFIGS' => [],
 
+    //默认设定
+    'DEFAULT_CHARSET'       =>  'utf-8', // 默认输出编码
+    'DEFAULT_TIMEZONE'      =>  'PRC',	// 默认时区
 
     /* 数据库设置 */
     'DB_TYPE'               =>  '',         // 数据库类型
