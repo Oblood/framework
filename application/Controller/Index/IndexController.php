@@ -8,11 +8,23 @@
 
 namespace application\Controller\Index;
 
+use oblood\library\Controller;
 
-class IndexController{
+class IndexController extends Controller
+{
 
-    public function index() {
-        echo 111;
+
+    public function _before_index() {
+
+    }
+
+    public function index()
+    {
+
+    }
+
+    public function _after_index() {
+
     }
 
 }

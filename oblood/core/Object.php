@@ -54,7 +54,7 @@ abstract class Object
             $method = 'get' . ucfirst($name);
             $reflectionClass = new \ReflectionClass($this);
 
-            if ($reflectionClass->hasMethod($method) && $reflectionClass->getMethod($method)->isPublic()) {
+            if ($reflectionClass->hasMethod($method) && !$reflectionClass->getMethod($method)->isPrivate()) {
 
                 $this->_attribute[$name] = call_user_func_array([$this, $method], []);
                 return $this->_attribute[$name];
