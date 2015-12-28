@@ -2,11 +2,15 @@
 
 return [
 
+    //公共配置项
     'COMMON_CONFIGS'  =>  [
         BASE_ROOT . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php'
     ],                      //项目配置项路径,全路径哦
 
+    //项目配置项路径
     'APPLICATION_CONFIGS' => [],
+
+    'SYSTEM_VENDOR' =>  [],
 
     //默认设定
     'DEFAULT_CHARSET'       =>  'utf-8', // 默认输出编码

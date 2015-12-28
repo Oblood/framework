@@ -6,6 +6,8 @@
 define('BASE_ROOT' , dirname(dirname(__FILE__)));
 
 
+//require BASE_ROOT. '/vendor/autoload.php';
+
 require 'core/App.php';
 
 
