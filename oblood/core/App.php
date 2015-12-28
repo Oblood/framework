@@ -55,9 +55,8 @@ class App
     }
 
 
-    public static function autoload($class)
+    protected static function autoload($class)
     {
-
         $classArray = explode('\\', $class);
 
         $classPath = BASE_ROOT . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $classArray) . '.php';
@@ -72,9 +71,14 @@ class App
 
     protected function registerError()
     {
-        $whoops = new \Whoops\Run;
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-        $whoops->register();
+        if(APP_DEBUG) {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops->register();
+        } else {
+
+//            App::$httpContext->response->redirect(Confi);
+        }
     }
 
     /**

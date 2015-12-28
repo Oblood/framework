@@ -11,8 +11,10 @@ namespace oblood\library;
 
 class HttpResponse
 {
-    public function redirect()
+    public function redirect($url, $statusCode = 302)
     {
+        header('Location: ' . $url);
 
+        return $this;
     }
 }

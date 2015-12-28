@@ -7,5 +7,5 @@ Web::get('/' , [
 ]);
 Web::get('/welcome' , [
     'controller'   => 'application\Controller\Index\IndexController',
-    'action'       => 'index',
+    'action'       => 's',
 ]);

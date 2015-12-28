@@ -28,9 +28,7 @@ class Route extends Object
         $requestRouteConfig = $this->requestRouteConfig();
         $controller = $this->createController($requestRouteConfig['controller']);
 
-        $result = $this->runAction($controller, $requestRouteConfig['action']);
-
-        return $result;
+        return $this->runAction($controller, $requestRouteConfig['action']);
     }
 
     /**

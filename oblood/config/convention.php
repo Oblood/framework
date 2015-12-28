@@ -10,13 +10,20 @@ return [
     //项目配置项路径
     'APPLICATION_CONFIGS' => [],
 
-    'SYSTEM_VENDOR' =>  [],
+    //smarty模板引擎配置
+    'SMARTY_L_DELIM'        =>  '{',            // 模板引擎普通标签开始标记
+    'SMARTY_R_DELIM'        =>  '}',            // 模板引擎普通标签结束标记
+    'SMARTY_CACHE_TIME'     =>  120,         // 模板缓存有效期 -1 为永久，(以数字为值，单位:秒)
+    'SMARTY_TEMPLATE_DIR'   =>  APP_ROOT . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR,
+    'SMARTY_COMPILE_DIR'    =>  APP_ROOT . DIRECTORY_SEPARATOR . 'Runtime' . DIRECTORY_SEPARATOR . 'compile' . DIRECTORY_SEPARATOR,
+    'SMARTY_CACHE_DIR'      =>  APP_ROOT . DIRECTORY_SEPARATOR . 'Runtime' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR,
+    'SMARTY_TEMPLATE_Suffix'=>  '.php',
 
     //默认设定
     'DEFAULT_CHARSET'       =>  'utf-8', // 默认输出编码
     'DEFAULT_TIMEZONE'      =>  'PRC',	// 默认时区
     'ACTION_BEFORE'         =>  '_before_',
-    'ACTION_AFTER'         =>   '_after_',
+    'ACTION_AFTER'          =>  '_after_',
 
     /* 数据库设置 */
     'DB_TYPE'               =>  '',         // 数据库类型

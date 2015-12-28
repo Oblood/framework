@@ -16,7 +16,6 @@ abstract class Object
 
     public function __construct()
     {
-
         $classes[] = self::className();
 
         while (true) {
@@ -64,6 +63,21 @@ abstract class Object
         }
     }
 
+    /**
+     * 判定 $_attribute 中的值是否设置
+     * @param string $name
+     * @return bool
+     */
+    public function hasAttribute($name) {
+        return isset($this->_attribute[$name]) ? true : false;
+    }
+
+    /**
+     * 实例化 class ，并且可以注入属性
+     * @param array $option
+     * @param array $attribute
+     * @return object
+     */
     public static function instance($option = [], $attribute = [])
     {
         $reflectionClass = new \ReflectionClass(self::className());
