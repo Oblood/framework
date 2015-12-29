@@ -41,6 +41,11 @@ class App
         exit((new Route())->execute());
     }
 
+    protected function initContext()
+    {
+        static::$httpContext = new HttpContext();
+    }
+
     protected function initClient()
     {
         //请求安全过滤
@@ -51,12 +56,6 @@ class App
         static::$httpContext->header->addHeader('Content-type: text/html; charset='.Config::get('DEFAULT_CHARSET'));
         static::$httpContext->header->addHeader('X-Powered-By:Oblood');
     }
-
-    protected function initContext()
-    {
-        self::$httpContext = new HttpContext();
-    }
-
 
     protected static function autoload($class)
     {
