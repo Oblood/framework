@@ -29,6 +29,10 @@ return [
     'ACTION_BEFORE'         =>  '_before_',
     'ACTION_AFTER'          =>  '_after_',
 
+    'DB' => [
+        'class' =>  ''
+    ],
+
     /* 数据库设置 */
     'DB_TYPE'               =>  '',         // 数据库类型
     'DB_HOST'               =>  '',         // 服务器地址
