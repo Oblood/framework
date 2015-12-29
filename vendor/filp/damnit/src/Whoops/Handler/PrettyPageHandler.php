@@ -50,7 +50,7 @@ class PrettyPageHandler extends Handler
     /**
      * @var string
      */
-    private $pageTitle = "Whoops! There was an error.";
+    private $pageTitle = "Oblood Error";
 
     /**
      * A string identifier for a known IDE/text editor, or a closure

@@ -9,7 +9,14 @@
 namespace oblood\library;
 
 
-class HttpHeader
+use oblood\core\Object;
+
+class HttpHeader extends Object
 {
+
+    public function addHeader($string, $replace = true, $http_response_code = null)
+    {
+        header($string, $replace, $http_response_code);
+    }
 
 }

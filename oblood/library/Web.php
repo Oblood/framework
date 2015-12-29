@@ -21,22 +21,49 @@ class Web
 
     public static function get($uri, $option = [])
     {
-        self::$requestGet[$uri] = $option;
+        static::setRequest(RequestMethod::GET, $uri, $option);
     }
 
     public static function post($uri, $option = [])
     {
-        self::$requestPost[$uri] = $option;
+        static::setRequest(RequestMethod::POST, $uri, $option);
     }
 
     public static function put($uri, $option = [])
     {
-        self::$requestPut[$uri] = $option;
+        static::setRequest(RequestMethod::PUT, $uri, $option);
     }
 
     public static function delete($uri, $option = [])
     {
-        self::$requestDelete[$uri] = $option;
+        static::setRequest(RequestMethod::DELETE, $uri, $option);
+    }
+
+    public static function match(array $method, $uri, $option = [])
+    {
+        foreach ($method as $value) {
+            static::setRequest($value, $uri, $option);
+        }
+    }
+
+    private static function setRequest($method, $uri, $option = [])
+    {
+        switch ($method) {
+            case RequestMethod::GET :
+                static::$requestGet[$uri] = $option;
+                break;
+            case RequestMethod::POST :
+                static::$requestPost[$uri] = $option;
+                break;
+            case RequestMethod::PUT :
+                static::$requestPut[$uri] = $option;
+                break;
+            case RequestMethod::DELETE :
+                static::$requestDelete[$uri] = $option;
+                break;
+            default :
+                static::$requestGet[$uri] = $option;
+        }
     }
 
     /**

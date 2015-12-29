@@ -14,82 +14,35 @@ use oblood\library\Config;
 use oblood\library\HttpRequest;
 use oblood\library\RequestMethod;
 use oblood\library\Web;
+use oblood\web\provider\RouteManage;
+use Whoops\Exception\ErrorException;
 
 class Route extends Object
 {
 
     public function execute()
     {
-        require BASE_ROOT . DIRECTORY_SEPARATOR . APP_NAME . DIRECTORY_SEPARATOR . 'routes.php';
-
         //拦截器
 
         //执行控制器
-        $requestRouteConfig = $this->requestRouteConfig();
-        $controller = $this->createController($requestRouteConfig['controller']);
 
-        return $this->runAction($controller, $requestRouteConfig['action']);
+        $routeConfig = Config::get('ROUTE');
+        $routeClass = $this->createRoute($routeConfig['class'] , $routeConfig);
+        return $routeClass->execute();
     }
 
     /**
-     * 创建一个控制器类
-     * @param $clazz
-     * @return mixed
+     * 创建需要使用的路由class
+     * @param string $routeClass class名称（带空间命名的哦）
+     * @param array $option
+     * @return RouteManage
      */
-    protected function createController($clazz)
+    protected function createRoute($routeClass, $option = [])
     {
-        return call_user_func_array([$clazz, 'instance'], []);
-    }
-
-    protected function runAction($controller, $actionName)
-    {
-        if (!method_exists($controller, $actionName)) {
-            throw new RouteException(' action不存在 ');
-        }
-
-        //执行action的前置方法
-        if (method_exists($controller, Config::get('ACTION_BEFORE') . $actionName)) {
-            if (call_user_func_array([$controller, Config::get('ACTION_BEFORE') . $actionName], []) === false) {
-                exit;
-            }
-        }
-
-        $result = call_user_func_array([$controller, $actionName], App::$httpContext->request->get());
-
-        //执行action的后置方法
-        if (method_exists($controller, Config::get('ACTION_AFTER') . $actionName)) {
-            call_user_func_array([$controller, Config::get('ACTION_AFTER') . $actionName], []);
-        }
-
-        return $result;
-    }
-
-    /**
-     * 获取需要执行控制器配置项
-     * @return array
-     */
-    protected function requestRouteConfig()
-    {
-        $uri = App::$httpContext->request->requestUri;
-
-        switch (App::$httpContext->request->method) {
-
-            case RequestMethod::GET    :
-                return Web::$requestGet [$uri];
-                break;
-            case RequestMethod::POST   :
-                return Web::$requestPost[$uri];
-                break;
-            case RequestMethod::PUT    :
-                return Web::$requestPut [$uri];
-                break;
-            case RequestMethod::DELETE :
-                return Web::$requestDelete[$uri];
-                break;
-            default :
-                return Web::$requestGet[$uri];
+        if (method_exists($routeClass, 'instance')) {
+            return call_user_func_array([$routeClass, 'instance'], $option);
+        } else {
+            return (new \ReflectionClass($routeClass))->newInstance($option);
         }
     }
-
-
 }

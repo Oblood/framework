@@ -89,7 +89,9 @@ abstract class Object
         $clazz = $reflectionClass->newInstance($option);
 
         foreach($attribute as $key => $value) {
-            $clazz->$key = $value;
+            if($key != 'class'){
+                $clazz->$key = $value;
+            }
         }
 
         return $clazz;

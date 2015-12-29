@@ -29,11 +29,11 @@ class App
         //错误汇总
         $this->registerError();
 
-        //初始化客户端请求数据
-        $this->initClient();
-
         //初始化容器
         $this->initContext();
+
+        //初始化客户端请求数据
+        $this->initClient();
 
         //设置时区
         date_default_timezone_set(Config::get('DEFAULT_TIMEZONE'));
@@ -47,6 +47,9 @@ class App
         array_walk_recursive($_GET, 'oblood\core\App::requestFilter');
         array_walk_recursive($_POST, 'oblood\core\App::requestFilter');
         array_walk_recursive($_REQUEST, 'oblood\core\App::requestFilter');
+
+        static::$httpContext->header->addHeader('Content-type: text/html; charset='.Config::get('DEFAULT_CHARSET'));
+        static::$httpContext->header->addHeader('X-Powered-By:Oblood');
     }
 
     protected function initContext()
@@ -72,7 +75,7 @@ class App
     protected function registerError()
     {
         if(APP_DEBUG) {
-            $whoops = new \Whoops\Run;
+            $whoops = new \Whoops\Run();
             $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
             $whoops->register();
         } else {

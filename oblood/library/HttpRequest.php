@@ -10,6 +10,7 @@ use oblood\core\Object;
  * Class HttpRequest
  * @package oblood\library
  * @property string $method
+ * @property string $isAjax
  * @property string clientIp
  * @property string requestHost
  * @property string serverPort
@@ -73,7 +74,12 @@ class HttpRequest extends Object
      */
     public function getMethod()
     {
-        return isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
+        return isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : RequestMethod::GET;
+    }
+
+    public function getIsAjax()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
     }
 
     /**

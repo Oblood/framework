@@ -10,6 +10,10 @@ return [
     //项目配置项路径
     'APPLICATION_CONFIGS' => [],
 
+    'ROUTE'                 =>  [
+        'class' =>  'oblood\web\ObloodRoute'
+    ],
+
     //smarty模板引擎配置
     'SMARTY_L_DELIM'        =>  '{',            // 模板引擎普通标签开始标记
     'SMARTY_R_DELIM'        =>  '}',            // 模板引擎普通标签结束标记
