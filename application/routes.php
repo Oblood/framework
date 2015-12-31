@@ -1,20 +1,19 @@
 <?php
 use \oblood\library\Web;
 
+/**
+ * $option = [
+ *      'controller' => '..',
+ *      'action'     => '..',
+ *      'initAttribute' => [], 
+ *      'template'   => '..'   优先级最高
+ * ]
+ */
 
-Web::get('/{action}' , [
-    'controller'   => 'application\Controller\Index\IndexController',
+Web::get('/{controller}/{action}.html' , [
+    'controller'   => 'application\Controller\Index\{controller}Controller',
     'action'       => '{action}',
-]);
-
-
-Web::get('/welcome/{qqq}/{www}.html' , [
-    'controller'   => 'application\Controller\Index\IndexController',
-    'action'       => '{www}',
-]);
-
-
-Web::get('/welcome/{qqq}.html' , [
-    'controller'   => 'application\Controller\Index\IndexController',
-    'action'       => 's',
+    'initAttribute' =>  [
+        'qqqq'  =>  '{controller}'
+    ]
 ]);

@@ -24,22 +24,46 @@ class ObloodRoute extends Object implements RouteManage
 
     protected $requestParameterValues;
 
+    /**
+     * @var array 匹配成功的路由的配置项
+     * 在 $this->requestRouteConfig() 执行过后产生
+     */
+    protected $routeConfig;
+
     public function execute()
     {
         require BASE_ROOT . DIRECTORY_SEPARATOR . APP_NAME . DIRECTORY_SEPARATOR . 'routes.php';
 
         $config = $this->requestRouteConfig();
 
-        if ($config == null) return null;
-
-        $controller = $this->createController($config['controller']);
+        if ($config == null) throw new RouteException('routes.php 文件中没有找到配置项');
 
         $parameters = $config['wildcard'] ? $this->resolveRequestParameters($config['configUri']) : [];
 
+        //整理通配符转换正指定的值
         foreach ($parameters as $key => $value) {
-            if(('{'.$key.'}') == $config['action']) {
-                $config['action'] = $value;
+            $wildcard = '{' . $key . '}';
+            foreach ($config as $k => $v) {
+                if ($k != 'wildcard' && $k != 'configUri') {
+                    $config[$k] = str_replace($wildcard, $value, $v);
+                }
             }
+        }
+
+        //判断是否直接读取模板
+        if (isset($config['template'])) {
+            if (is_file(Config::get('SMARTY_TEMPLATE_DIR') . $config['template'])) {
+                return $this->readTemplate(Config::get('SMARTY_TEMPLATE_DIR') . $config['template']);
+            } else {
+                throw new RouteException(Config::get('SMARTY_TEMPLATE_DIR') . $config['template'] . ' 模板文件没有找到');
+            }
+        }
+
+        $controller = $this->createController($config['controller']);
+
+        //判断是否需要初始化控制器的属性
+        if (isset($config['initAttribute'])) {
+            $this->initControllerAttribute($controller, $config['initAttribute']);
         }
 
         return $this->runAction($controller, $config['action'], $parameters);
@@ -56,6 +80,20 @@ class ObloodRoute extends Object implements RouteManage
             return call_user_func_array([$clazz, 'instance'], []);
         } else {
             throw new RouteException(' controller not found ');
+        }
+    }
+
+    /**
+     * 初始化控制器属性
+     * @param $controller
+     * @param $attributes
+     */
+    protected function initControllerAttribute(&$controller, $attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            if (property_exists($controller, $key)) {
+                $controller->$key = $value;
+            }
         }
     }
 
@@ -84,6 +122,24 @@ class ObloodRoute extends Object implements RouteManage
     }
 
     /**
+     * 执行模板
+     * @param $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe
+     * @return string
+     */
+    protected function readTemplate($aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe)
+    {
+        ob_start();
+
+        include $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe;
+
+        $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe = ob_get_contents();
+
+        ob_end_clean();
+
+        return $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe;
+    }
+
+    /**
      * 获取需要执行控制器配置项
      * @return array
      */
@@ -108,9 +164,9 @@ class ObloodRoute extends Object implements RouteManage
         }
 
         if (isset($config[App::$httpContext->request->requestUri])) {
-            $result = $config[App::$httpContext->request->requestUri];
-            $result['wildcard'] = false;
-            return $result;
+            $this->routeConfig = $config[App::$httpContext->request->requestUri];
+            $this->routeConfig['wildcard'] = false;
+            return $this->routeConfig;
         }
 
         foreach ($config as $key => $value) {
@@ -125,10 +181,10 @@ class ObloodRoute extends Object implements RouteManage
             }
 
             if (preg_match($pattern, App::$httpContext->request->requestUri)) {
-                $result = $config[$key];
-                $result['wildcard'] = true;
-                $result['configUri'] = $key;
-                return $result;
+                $this->routeConfig = $config[$key];
+                $this->routeConfig['wildcard'] = true;
+                $this->routeConfig['configUri'] = $key;
+                return $this->routeConfig;
             }
         }
 
@@ -174,6 +230,11 @@ class ObloodRoute extends Object implements RouteManage
         return $this->requestParameterKeys;
     }
 
+    /**
+     * 获取请求url中的通配符参数的value
+     * @param $configUri
+     * @return array
+     */
     protected function requestParameterValues($configUri)
     {
         if (!isset($this->requestParameterValues)) {

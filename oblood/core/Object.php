@@ -58,7 +58,7 @@ abstract class Object
                 $this->_attribute[$name] = call_user_func_array([$this, $method], []);
                 return $this->_attribute[$name];
             } else {
-                throw new \ErrorException();
+                throw new \ErrorException(static::className() . ' 中没有找到属性 ：' . $name);
             }
         }
     }
@@ -68,19 +68,20 @@ abstract class Object
      * @param string $name
      * @return bool
      */
-    public function hasAttribute($name) {
-        return isset($this->_attribute[$name]) ? true : false;
+    public function hasAttribute($name)
+    {
+        return property_exists($this, $name) ? true : isset($this->_attribute[$name]) ? true : false;
     }
 
     /**
-     * 实例化 class ，并且可以注入属性
+     * 实例化 class ，并且可以注入属性哦
      * @param array $option
      * @param array $attribute
      * @return object
      */
     public static function instance($option = [], $attribute = [])
     {
-        $reflectionClass = new \ReflectionClass(self::className());
+        $reflectionClass = new \ReflectionClass(static::className());
 
         if (empty($attribute) && empty($option)) {
             return $reflectionClass->newInstance();
@@ -88,8 +89,8 @@ abstract class Object
 
         $clazz = $reflectionClass->newInstance($option);
 
-        foreach($attribute as $key => $value) {
-            if($key != 'class'){
+        foreach ($attribute as $key => $value) {
+            if ($key != 'class') {
                 $clazz->$key = $value;
             }
         }

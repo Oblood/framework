@@ -38,21 +38,18 @@ class Controller extends Object
     /**
      * 获取请求
      * @return HttpRequest
-     * @throws \ErrorException
      */
     protected function getRequest()
     {
-        if (!$this->hasAttribute('request')) {
-            $this->__set('request', App::$httpContext->request);
-        }
-        return $this->__get('request');
+        return App::$httpContext->request;
     }
 
+    /**
+     * 获取响应
+     * @return HttpResponse
+     */
     protected function getResponse()
     {
-        if (!$this->hasAttribute('response')) {
-            $this->__set('response', App::$httpContext->response);
-        }
-        return $this->__get('response');
+        return App::$httpContext->response;
     }
 }

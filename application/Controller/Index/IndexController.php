@@ -17,25 +17,12 @@ class IndexController extends Controller
 {
 
 
-
-    public function index($qqq=111,$www=22)
+    public function index()
     {
-
-        $BaseDb = new BaseDb();
-//        $BaseDb->openConnection();
-//        $Transaction = $BaseDb->beginTransaction();
-//        $Transaction->rollBack();
 
         $this->view->assign('username', 'dsa')->assign('user', 'dsaqq');
-        return $this->view->display('s/index');
+        return $this->view->display('index');
     }
 
-
-
-    public function s()
-    {
-
-        return "daskldaskd";
-    }
 
 }
