@@ -10,10 +10,4 @@ use \oblood\library\Web;
  * ]
  */
 
-Web::get('/{controller}/{action}.html' , [
-    'controller'   => 'application\Controller\Index\{controller}Controller',
-    'action'       => '{action}',
-    'initAttribute' =>  [
-        'qqqq'  =>  '{controller}'
-    ]
-]);
+Web::get('/' , ['template' => 'index.php']);

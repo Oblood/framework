@@ -11,6 +11,7 @@
   ],
   "require": {
     "filp/damnit": "1.1.10",
-    "smarty/smarty": "3.1.29"
+    "smarty/smarty": "3.1.29",
+    "way/generators": "3.0.3"
   }
 }

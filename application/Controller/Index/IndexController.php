@@ -8,8 +8,6 @@
 
 namespace application\Controller\Index;
 
-use oblood\core\App;
-use oblood\db\BaseDb;
 use oblood\web\Controller;
 
 

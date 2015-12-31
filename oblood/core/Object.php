@@ -29,7 +29,8 @@ abstract class Object
         $reflectionClass = new \ReflectionClass($this);
 
         for ($i = count($classes) - 1; $i >= 0; $i--) {
-            $method = array_pop(explode('\\', $classes[$i]));
+            $tArray = explode('\\', $classes[$i]);
+            $method = $tArray[count($tArray) - 1];
             if ($reflectionClass->hasMethod($method)) {
                 $reflectionMethod = $reflectionClass->getMethod($method);
                 if (!$reflectionMethod->isPrivate()) {
