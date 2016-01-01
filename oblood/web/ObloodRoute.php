@@ -52,10 +52,13 @@ class ObloodRoute extends Object implements RouteManage
 
         //判断是否直接读取模板
         if (isset($config['template'])) {
-            if (is_file(Config::get('SMARTY_TEMPLATE_DIR') . $config['template'])) {
-                return $this->readTemplate(Config::get('SMARTY_TEMPLATE_DIR') . $config['template']);
+
+            $template = APP_ROOT . Config::get('TEMPLATE_DIR') . $config['template'];
+
+            if (is_file($template)) {
+                return $this->readTemplate($template);
             } else {
-                throw new RouteException(Config::get('SMARTY_TEMPLATE_DIR') . $config['template'] . ' 模板文件没有找到');
+                throw new RouteException($template . ' 模板文件没有找到');
             }
         }
 

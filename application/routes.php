@@ -10,4 +10,5 @@ use \oblood\library\Web;
  * ]
  */
 
+
 Web::get('/', ['template' => 'index.php']);

@@ -19,18 +19,12 @@ return [
     'CROSS_DOMAIN_KEY'      =>  'oblood',
 
 
-    //smarty模板引擎配置
-    'SMARTY_L_DELIM'        =>  '{',            // 模板引擎普通标签开始标记
-    'SMARTY_R_DELIM'        =>  '}',            // 模板引擎普通标签结束标记
-    'SMARTY_CACHE_TIME'     =>  120,         // 模板缓存有效期 -1 为永久，(以数字为值，单位:秒)
-    'SMARTY_TEMPLATE_DIR'   =>  APP_ROOT . DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR,
-    'SMARTY_COMPILE_DIR'    =>  APP_ROOT . DIRECTORY_SEPARATOR . 'Runtime' . DIRECTORY_SEPARATOR . 'compile' . DIRECTORY_SEPARATOR,
-    'SMARTY_CACHE_DIR'      =>  APP_ROOT . DIRECTORY_SEPARATOR . 'Runtime' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR,
-    'SMARTY_TEMPLATE_Suffix'=>  '.php',
+    'TEMPLATE_LAYOUT'       =>  '',             //模板布局文件地址,以项目目录为根目录
+    'TEMPLATE_DIR'          =>  DIRECTORY_SEPARATOR . 'View' . DIRECTORY_SEPARATOR,   //模板资源文件所在路径 以项目目录为根目录
 
     //默认设定
-    'DEFAULT_CHARSET'       =>  'utf-8', // 默认输出编码
-    'DEFAULT_TIMEZONE'      =>  'PRC',	// 默认时区
+    'DEFAULT_CHARSET'       =>  'utf-8',        // 默认输出编码
+    'DEFAULT_TIMEZONE'      =>  'PRC',	        // 默认时区
     'ACTION_BEFORE'         =>  '_before_',
     'ACTION_AFTER'          =>  '_after_',
 
@@ -38,9 +32,9 @@ return [
     'DB' => [
         'driver'    => 'mysql',             // 数据库类型
         'host'      => 'localhost',         // 服务器地址
-        'database'  => '',            // 数据库名
+        'database'  => '',                  // 数据库名
         'username'  => 'root',              // 用户名
-        'password'  => 'root',                  // 密码
+        'password'  => 'root',              // 密码
         'charset'   => 'utf8',              // 数据库编码默认采用utf8
         'collation' => 'utf8_unicode_ci',   // 数据库字符集编码
         'prefix'    => '',                  // 数据库表前缀

@@ -10,6 +10,7 @@ namespace oblood\web;
 
 use oblood\core\App;
 use oblood\core\Object;
+use oblood\library\Config;
 use oblood\library\HttpRequest;
 use oblood\library\HttpResponse;
 
@@ -22,6 +23,28 @@ use oblood\library\HttpResponse;
  */
 class Controller extends Object
 {
+    /**
+     * @var string 模板布局文件
+     * 填写此项可动态修改布局文件所在位置
+     */
+    protected $layout;
+
+    /**
+     * @var string 模板文件夹路径
+     * 填写此项可动态修改模板文件夹路径所在位置
+     */
+    protected $templateDir;
+
+
+    /**
+     * 初始化控制器
+     */
+    protected function Controller()
+    {
+        isset($this->layout) && Config::set('TEMPLATE_LAYOUT' , $this->layout);
+        isset($this->templateDir) && Config::set('TEMPLATE_DIR' , $this->templateDir);
+    }
+
     /**
      * 获取视图
      * @return View
