@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    'DB'    =>   include 'db.php'
+];

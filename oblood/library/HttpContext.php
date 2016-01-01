@@ -7,6 +7,7 @@
  */
 
 namespace oblood\library;
+
 use oblood\core\Object;
 
 
@@ -17,6 +18,7 @@ use oblood\core\Object;
  * @property HttpResponse $response
  * @property HttpHeader $header
  * @property HttpSession $session
+ * @property HttpCookie $cookie
  */
 class HttpContext extends Object
 {
@@ -39,6 +41,11 @@ class HttpContext extends Object
     protected function getSession()
     {
         return new HttpSession();
+    }
+
+    protected function getCookie()
+    {
+        return new HttpCookie();
     }
 
 }

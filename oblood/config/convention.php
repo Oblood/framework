@@ -14,6 +14,11 @@ return [
         'class' =>  'oblood\web\ObloodRoute'
     ],
 
+    //是否启动 跨域Session
+    'CROSS_DOMAIN'          =>  false,
+    'CROSS_DOMAIN_KEY'      =>  'oblood',
+
+
     //smarty模板引擎配置
     'SMARTY_L_DELIM'        =>  '{',            // 模板引擎普通标签开始标记
     'SMARTY_R_DELIM'        =>  '}',            // 模板引擎普通标签结束标记
@@ -29,19 +34,15 @@ return [
     'ACTION_BEFORE'         =>  '_before_',
     'ACTION_AFTER'          =>  '_after_',
 
-    'DB' => [
-        'class' =>  ''
-    ],
-
     /* 数据库设置 */
-    'DB_TYPE'               =>  '',         // 数据库类型
-    'DB_HOST'               =>  '',         // 服务器地址
-    'DB_NAME'               =>  '',         // 数据库名
-    'DB_USER'               =>  '',         // 用户名
-    'DB_PWD'                =>  '',         // 密码
-    'DB_PORT'               =>  '',         // 端口
-    'DB_PREFIX'             =>  '',         // 数据库表前缀
-    'DB_CHARSET'            =>  'utf8',     // 数据库编码默认采用utf8
-
-
+    'DB' => [
+        'driver'    => 'mysql',             // 数据库类型
+        'host'      => 'localhost',         // 服务器地址
+        'database'  => '',            // 数据库名
+        'username'  => 'root',              // 用户名
+        'password'  => 'root',                  // 密码
+        'charset'   => 'utf8',              // 数据库编码默认采用utf8
+        'collation' => 'utf8_unicode_ci',   // 数据库字符集编码
+        'prefix'    => '',                  // 数据库表前缀
+    ],
 ];

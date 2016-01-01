@@ -9,6 +9,7 @@
 namespace oblood\core;
 
 
+use Illuminate\Database\Capsule\Manager;
 use oblood\library\Config;
 use oblood\library\HttpContext;
 
@@ -35,6 +36,9 @@ class App
         //初始化客户端请求数据
         $this->initClient();
 
+        //初始化DB
+        $this->initDb();
+
         //设置时区
         date_default_timezone_set(Config::get('DEFAULT_TIMEZONE'));
 
@@ -57,6 +61,14 @@ class App
         static::$httpContext->header->addHeader('X-Powered-By:Oblood');
     }
 
+    public function initDb()
+    {
+        $capsule = new Manager();
+        $capsule->addConnection(Config::get('DB'));
+        $capsule->setAsGlobal();
+        $capsule->bootEloquent();
+    }
+
     protected static function autoload($class)
     {
         $classArray = explode('\\', $class);
@@ -64,7 +76,6 @@ class App
         $classPath = BASE_ROOT . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $classArray) . '.php';
 
         if (!in_array($classPath, get_required_files())) {
-            require_once $classPath;
             if (is_file($classPath)) {
                 require_once $classPath;
             }
