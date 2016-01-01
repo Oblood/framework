@@ -14,18 +14,18 @@ use oblood\core\Object;
 class HttpSession extends Object
 {
     /**
+     * session是否打开
+     * @var boolean
+     */
+    public $isOpen = false;
+
+    /**
      * 实例化该类时 session自动打开
      */
     public function HttpSession()
     {
         $this->open();
     }
-
-    /**
-     * session是否打开
-     * @var boolean
-     */
-    public $isOpen = false;
 
     /**
      * 判断session属性是否存在
