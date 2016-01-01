@@ -30,6 +30,7 @@
     }
 
     .title {
+        color:#f4645f;
         font-size: 96px;
     }
 </style>
