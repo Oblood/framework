@@ -76,7 +76,7 @@ class ObloodRoute extends Object implements RouteManage
      */
     protected function createController($clazz)
     {
-        if (class_exists($clazz)) {
+        if (class_exists($clazz) && method_exists($clazz, 'instance')) {
             return call_user_func_array([$clazz, 'instance'], []);
         } else {
             throw new RouteException(' controller not found ');
@@ -162,6 +162,8 @@ class ObloodRoute extends Object implements RouteManage
             default :
                 $config = Web::$requestGet;
         }
+
+        if ($config === null) return null;
 
         if (isset($config[App::$httpContext->request->requestUri])) {
             $this->routeConfig = $config[App::$httpContext->request->requestUri];
