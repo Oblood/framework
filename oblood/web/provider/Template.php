@@ -34,6 +34,13 @@ abstract class Template
      * 编译模板
      * @return string
      */
-    public abstract function compile($file);
+    public abstract function compile($_file);
+
+    /**
+     * 直接运行模板，不用布局文件
+     * @param $file
+     * @return mixed
+     */
+    public abstract function runTemplate($_file);
 
 }

@@ -36,12 +36,10 @@ class View extends Object
      * 传递属性给模板
      * @param $name
      * @param mixed $value
-     * @return $this
      */
     public function assign($name, $value = null)
     {
         $this->template->$name = $value;
-        return $this;
     }
 
     /**
@@ -63,6 +61,5 @@ class View extends Object
     {
         $this->template->removeAttribute($name);
     }
-
 
 }

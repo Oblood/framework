@@ -1,12 +1,18 @@
 <?php
 
+/**
+ *      主从数据库可以这样子
+ *      如果三五个数据库那就没办法了
+ *
+ *     'read' => [
+ *          'host' => '192.168.1.99',
+ *      ],
+ *      'write' => [
+ *          'host' => 'localhost'
+ *      ],
+ */
+
 return [
-    'read' => [
-        'host' => '192.168.1.99',
-    ],
-    'write' => [
-        'host' => 'localhost'
-    ],
     'driver'    => 'mysql',             // 数据库类型
     'host'      => 'localhost',         // 服务器地址
     'database'  => 'oblood',            // 数据库名

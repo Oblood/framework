@@ -17,7 +17,7 @@ class HttpSession extends Object
      * session是否打开
      * @var boolean
      */
-    public $isOpen = false;
+    public static $isOpen = false;
 
     /**
      * 实例化该类时 session自动打开
@@ -101,6 +101,8 @@ class HttpSession extends Object
      */
     public function destroy()
     {
+        $_SESSION = [];
+        session_unset();
         session_destroy();
     }
 }

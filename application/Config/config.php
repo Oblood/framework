@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * 更多配置参数 见 /oblood/config/convention.php
+ */
+
 return [
 
     'TEMPLATE_DIR'  =>  '/View/',                         //模板资源文件所在路径

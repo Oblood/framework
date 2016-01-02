@@ -19,4 +19,13 @@ class HttpHeader extends Object
         header($string, $replace, $http_response_code);
     }
 
+    /**
+     * 函数检查 HTTP 标头是否已被发送以及在哪里被发送。 如果报头已发送
+     * @return bool
+     */
+    public function headerIsSend()
+    {
+        return headers_sent();
+    }
+
 }

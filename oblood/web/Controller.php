@@ -17,9 +17,9 @@ use oblood\library\HttpResponse;
 /**
  * Class Controller
  * @package oblood\web
- * @property View $view
  * @property HttpRequest $request
  * @property HttpResponse $response
+ * @property View $view
  */
 class Controller extends Object
 {
@@ -41,19 +41,15 @@ class Controller extends Object
      */
     protected function Controller()
     {
-        isset($this->layout) && Config::set('TEMPLATE_LAYOUT' , $this->layout);
-        isset($this->templateDir) && Config::set('TEMPLATE_DIR' , $this->templateDir);
+        isset($this->layout) && Config::set('TEMPLATE_LAYOUT', $this->layout);
+        isset($this->templateDir) && Config::set('TEMPLATE_DIR', $this->templateDir);
+
     }
 
-    /**
-     * 获取视图
-     * @return View
-     * @throws \ErrorException
-     */
     protected function getView()
     {
-        if (!$this->hasAttribute('view')) {
-            $this->__set('view', View::instance());
+        if(!$this->hasAttribute('view')) {
+            $this->__set('view' , View::instance());
         }
         return $this->__get('view');
     }
@@ -74,5 +70,24 @@ class Controller extends Object
     protected function getResponse()
     {
         return App::$httpContext->response;
+    }
+
+    /**
+     * @param $template
+     * @return string
+     */
+    public function display($template)
+    {
+        return $this->view->display($template);
+    }
+
+    /**
+     * @param $name
+     * @param $value
+     * @return $this
+     */
+    public function assign($name, $value)
+    {
+        $this->view->assign($name, $value);
     }
 }

@@ -72,7 +72,7 @@ class Web
      */
     public static function error($code, $option = [])
     {
-        self::$requestError[$code] = $option;
+        static::$requestError[$code] = $option;
     }
 
     public static function filter($uri, $option = [])

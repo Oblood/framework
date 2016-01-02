@@ -43,6 +43,8 @@ class HttpCookie extends Object
 
     public function remove($name)
     {
-
+        if(isset($_COOKIE[$name])) {
+            unset($_COOKIE);
+        }
     }
 }

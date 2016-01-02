@@ -11,7 +11,10 @@ namespace oblood\core;
 
 use Illuminate\Database\Capsule\Manager;
 use oblood\library\Config;
+use oblood\library\Debug;
 use oblood\library\HttpContext;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class App
 {
@@ -42,7 +45,11 @@ class App
         //设置时区
         date_default_timezone_set(Config::get('DEFAULT_TIMEZONE'));
 
-        exit((new Route())->execute());
+        $result = (new Route())->execute();
+
+        //output  app end
+        static::$httpContext->response->output($result);
+
     }
 
     protected function initContext()
@@ -56,9 +63,6 @@ class App
         array_walk_recursive($_GET, 'oblood\core\App::requestFilter');
         array_walk_recursive($_POST, 'oblood\core\App::requestFilter');
         array_walk_recursive($_REQUEST, 'oblood\core\App::requestFilter');
-
-        static::$httpContext->header->addHeader('Content-type: text/html; charset='.Config::get('DEFAULT_CHARSET'));
-        static::$httpContext->header->addHeader('X-Powered-By:Oblood');
     }
 
     public function initDb()
@@ -69,6 +73,12 @@ class App
         $capsule->bootEloquent();
     }
 
+    /**
+     * 加载格式为 包名/类名
+     * 例1： application\HelloController 对应文件夹  /application/HelloController.php
+     * 例2： application\Controller\HelloController 对应文件夹  /application/Controller/HelloController.php
+     * @param $class
+     */
     protected static function autoload($class)
     {
         $classArray = explode('\\', $class);
@@ -85,13 +95,14 @@ class App
     protected function registerError()
     {
         if(APP_DEBUG) {
-            $whoops = new \Whoops\Run();
-            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-            $whoops->register();
-        } else {
+            $whoops = new Run();
 
-//            App::$httpContext->response->redirect(Confi);
+        } else {
+            $whoops = new Debug();
         }
+
+        $whoops->pushHandler(new PrettyPageHandler());
+        $whoops->register();
     }
 
     /**

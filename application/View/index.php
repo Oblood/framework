@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>OBlood</title>
+    <title><?=$this->title?></title>
 </head>
 <style>
     html, body {
@@ -36,9 +36,12 @@
 <body>
 <div class="container">
     <div class="content">
-        <div class="title">OBlood</div>
+        <div class="title"><?= $this->title ?></div>
+        <p><?= $this->body ?></p>
     </div>
 </div>
+
+
 
 </body>
 </html>

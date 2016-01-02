@@ -16,6 +16,7 @@ use oblood\library\Config;
 use oblood\library\RequestMethod;
 use oblood\library\Web;
 use oblood\web\provider\RouteManage;
+use Whoops\Exception\ErrorException;
 
 class ObloodRoute extends Object implements RouteManage
 {
@@ -52,14 +53,7 @@ class ObloodRoute extends Object implements RouteManage
 
         //判断是否直接读取模板
         if (isset($config['template'])) {
-
-            $template = APP_ROOT . Config::get('TEMPLATE_DIR') . $config['template'];
-
-            if (is_file($template)) {
-                return $this->readTemplate($template);
-            } else {
-                throw new RouteException($template . ' 模板文件没有找到');
-            }
+            return $this->readTemplate($config['template'], isset($config['initAttribute']) ? $config['initAttribute'] : []);
         }
 
         $controller = $this->createController($config['controller']);
@@ -124,22 +118,17 @@ class ObloodRoute extends Object implements RouteManage
         return $result;
     }
 
-    /**
-     * 执行模板
-     * @param $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe
-     * @return string
-     */
-    protected function readTemplate($aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe)
+
+    protected function readTemplate($file, $params = [])
     {
-        ob_start();
+        if(!is_array($params)) throw new ErrorException('配置项类型不正确,应为键值对数组');
 
-        include $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe;
+        $template = new Template();
+        foreach ($params as $name => $value) {
+            is_string($name) && $template->$name = $value;
+        }
 
-        $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe = ob_get_contents();
-
-        ob_end_clean();
-
-        return $aksdjkshwuiedncbvjkhfderhuohrteuih34uiy53478gerdfcbvnbmw3rgiwe;
+        return $template->runTemplate($file);
     }
 
     /**

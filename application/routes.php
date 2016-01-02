@@ -11,4 +11,16 @@ use \oblood\library\Web;
  */
 
 
-Web::get('/', ['template' => 'index.php']);
+Web::get('/', ['template' => 'index.php' , 'initAttribute' => [
+    'title' =>  'OBlood',
+    'body'  =>  'this is a framework'
+]]);
+
+Web::get('/index.html', [
+    'initAttribute' => [
+        'title' =>  'OBlood',
+        'body'  =>  'this is a framework'
+    ],
+    'controller'    =>  'application\HelloController',
+    'action'        =>  'say'
+]);
