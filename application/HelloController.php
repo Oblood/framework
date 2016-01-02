@@ -20,7 +20,7 @@ class HelloController extends Controller
     public function say()
     {
         $this->assign('title' , $this->title);
-        $this->assign('body'  , 'hello world');
+        $this->assign('body'  , $this->body);
         return $this->display('index');
     }
 
