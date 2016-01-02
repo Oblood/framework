@@ -16,10 +16,21 @@ Web::get('/', ['template' => 'index.php' , 'initAttribute' => [
     'body'  =>  'this is a framework'
 ]]);
 
-Web::get('/index.html', [
+//url  /hell
+Web::get('/hello', [
     'initAttribute' => [
         'title' =>  'OBlood',
-        'body'  =>  'this is a framework'
+        'body'  =>  'hello world'
+    ],
+    'controller'    =>  'application\HelloController',
+    'action'        =>  'say'
+]);
+
+//url  /hello/helloworld
+Web::get('/hello/{body}', [
+    'initAttribute' => [
+        'title' =>  'OBlood',
+        'body'  =>  '{body}'
     ],
     'controller'    =>  'application\HelloController',
     'action'        =>  'say'
