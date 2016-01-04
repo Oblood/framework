@@ -7,12 +7,13 @@
  */
 
 namespace oblood\web\provider;
+use oblood\route\provider\Mapping;
 
 interface RouteManage
 {
     /**
      * 返回筛选成功的路由对象
-     * @return mixed
+     * @return Mapping
      */
     public function execute();
 }
