@@ -42,9 +42,9 @@ class Route extends Object
             return $this->runControllerAction($mappingObject);
         } elseif ($mappingObject instanceof MappingView) {
             return $this->runTemplate($mappingObject);
-        } else {
-            return null;
         }
+        
+        throw new ErrorException('没有在路由配置 route.php 中找到 ' . App::$httpContext->request->requestUri);
     }
 
     /**
