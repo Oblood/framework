@@ -90,4 +90,9 @@ class Controller extends Object
     {
         $this->view->assign($name, $value);
     }
+
+    public function ajaxReturn($data , $encode = HttpResponse::OUTPUT_TYPE_JSON) {
+        HttpResponse::$returnType = $encode;
+        return $data;
+    }
 }

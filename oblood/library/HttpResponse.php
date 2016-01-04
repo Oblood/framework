@@ -57,7 +57,7 @@ class HttpResponse extends Object
         $type = empty($type) ? static::$returnType : $type;
 
         if (!$headerObject->headerIsSend() && isset($headers[$type])) {
-            $headerObject->addHeader('Content-type: text/html; charset=' . Config::get('DEFAULT_CHARSET'));
+            $headerObject->addHeader('Content-type: '.$headers[$type].'; charset=' . Config::get('DEFAULT_CHARSET'));
 
             //屏蔽 X-Powered-By 不告诉别人这个是用php写的
             ini_get('expose_php') && $headerObject->addHeader('X-Powered-By:Oblood');

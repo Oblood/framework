@@ -23,16 +23,33 @@ class HelloController extends Controller
     {
 
 
-        $this->assign('title' , $this->title);
-        $this->assign('body'  , $this->body);
+        $this->assign('title', $this->title);
+        $this->assign('body', $this->body);
         return $this->display('index');
     }
 
-    public function sayId($id = 213)
+    public function sayId($id)
     {
-        $this->assign('title' , $this->title);
-        $this->assign('body'  , $id);
+        $this->assign('title', $this->title);
+        $this->assign('body', $id);
         return $this->display('index');
+    }
+
+    public function post()
+    {
+        $this->assign('name' , $this->request->post('name'));
+        return $this->display('post');
+    }
+
+    public function save()
+    {
+        if($this->request->isAjax) {
+            return $this->ajaxReturn($this->request->post('name'));
+        } else {
+            $this->assign('name' , $this->request->post('name'));
+            return $this->display('submitResult');
+        }
+
     }
 
 }

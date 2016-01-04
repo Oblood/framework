@@ -1,6 +1,6 @@
 <?php
 use oblood\route\RequestMapping;
-
+use oblood\library\RequestMethod;
 /**
  * $option = [
  *      'controller' => '..',
@@ -46,4 +46,16 @@ RequestMapping::controller('@foo/say/{id}', [
         'title' => 'hello world',
         'body' => 'say'
     ]
+]);
+
+RequestMapping::controller('/post' , [
+    'controller' => 'application\HelloController',
+    'action' => 'post',
+    'method'    =>  RequestMethod::GET
+]);
+
+RequestMapping::controller('/post' , [
+    'controller' => 'application\HelloController',
+    'action' => 'save',
+    'method'    =>  RequestMethod::POST
 ]);
