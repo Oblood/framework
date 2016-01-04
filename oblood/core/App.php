@@ -13,6 +13,7 @@ use Illuminate\Database\Capsule\Manager;
 use oblood\library\Config;
 use oblood\library\Debug;
 use oblood\library\HttpContext;
+use Whoops\Exception\ErrorException;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -23,6 +24,11 @@ class App
      * @var HttpContext
      */
     public static $httpContext;
+
+    /**
+     * @var Manager
+     */
+    public static $db;
 
     public function run()
     {
@@ -71,6 +77,8 @@ class App
         $capsule->addConnection(Config::get('DB'));
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
+
+        static::$db = $capsule;
     }
 
     /**
