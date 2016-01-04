@@ -137,6 +137,25 @@ class ObloodRoute extends Object implements RouteManage
      */
     protected function requestRouteConfig()
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         switch (App::$httpContext->request->method) {
 
             case RequestMethod::GET    :

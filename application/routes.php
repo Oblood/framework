@@ -1,5 +1,5 @@
 <?php
-use \oblood\library\Web;
+use oblood\route\RequestMapping;
 
 /**
  * $option = [
@@ -10,28 +10,40 @@ use \oblood\library\Web;
  * ]
  */
 
+RequestMapping::alias('foo', '/hello');
 
-Web::get('/', ['template' => 'index.php' , 'initAttribute' => [
-    'title' =>  'OBlood',
-    'body'  =>  'this is a framework'
-]]);
-
-//url  /hell
-Web::get('/hello', [
+RequestMapping::view('/', [
+    'template' => 'index.php',
     'initAttribute' => [
-        'title' =>  'OBlood',
-        'body'  =>  'hello world'
-    ],
-    'controller'    =>  'application\HelloController',
-    'action'        =>  'say'
+        'title' => 'OBlood',
+        'body' => 'this\'s a framework'
+    ]
 ]);
 
-//url  /hello/helloworld
-Web::get('/hello/{body}', [
+
+RequestMapping::controller('@foo/say', [
+    'controller' => 'application\HelloController',
+    'action' => 'say',
     'initAttribute' => [
-        'title' =>  'OBlood',
-        'body'  =>  '{body}'
-    ],
-    'controller'    =>  'application\HelloController',
-    'action'        =>  'say'
+        'title' => 'hello world',
+        'body' => 'say'
+    ]
+]);
+
+RequestMapping::controller('@foo/say/{id}', [
+    'controller' => 'application\HelloController',
+    'action' => 'sayId',
+    'initAttribute' => [
+        'title' => 'hello world',
+        'body' => 'say'
+    ]
+]);
+
+RequestMapping::controller('@foo/say/{id}', [
+    'controller' => 'application\HelloController',
+    'action' => 'sayId',
+    'initAttribute' => [
+        'title' => 'hello world',
+        'body' => 'say'
+    ]
 ]);

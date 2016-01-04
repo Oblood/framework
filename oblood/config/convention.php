@@ -11,8 +11,14 @@ return [
     'APPLICATION_CONFIGS' => [],
 
     'ROUTE'                 =>  [
-        'class' =>  'oblood\web\ObloodRoute'
+        'class' =>  'oblood\route\ObloodRoute'
     ],
+
+
+    'ROUTE_CONTROLLER_FILTER'   =>  [
+        'class' =>  ''
+    ],
+
 
     //是否启动 跨域Session
     'CROSS_DOMAIN'          =>  false,
