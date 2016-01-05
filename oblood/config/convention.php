@@ -10,15 +10,24 @@ return [
     //项目配置项路径
     'APPLICATION_CONFIGS' => [],
 
+    'INIT_LOADFILE'         =>  [],
+
     'ROUTE'                 =>  [
         'class' =>  'oblood\route\ObloodRoute'
     ],
 
+    // ROUTE_FILTER => [
+    //  'url'   =>  [
+    //      'class' =>  '...',          [必填]
+    //      'method'=>  ''              [可选]
+    //      'initAttribute' =>  []      [可选]
+    //  ]
+    //]
+    'ROUTE_FILTER'   =>  [
 
-    'ROUTE_CONTROLLER_FILTER'   =>  [
-        'class' =>  ''
     ],
 
+    'LISTENER'          =>  [],
 
     //是否启动 跨域Session
     'CROSS_DOMAIN'          =>  false,

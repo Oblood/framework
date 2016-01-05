@@ -58,6 +58,12 @@ class App
             }
         }
 
+        foreach(Config::get('INIT_LOADFILE') as $value) {
+            if(is_file($value)) {
+                require $value;
+            }
+        }
+
         $result = (new Route())->execute();
 
         //output  app end
