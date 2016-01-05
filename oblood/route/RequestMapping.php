@@ -9,6 +9,7 @@
 namespace oblood\route;
 
 
+use oblood\library\Config;
 use Whoops\Exception\ErrorException;
 
 class RequestMapping
@@ -33,9 +34,7 @@ class RequestMapping
     {
         $mappingController = new MappingController();
 
-        foreach(static::$alias as $key => $value) {
-            $url = str_replace($key , $value , $url);
-        }
+        static::arrangementAliasUrl($url);
 
         $mappingController->setUrl($url);
         $mappingController->setController($option['controller']);
@@ -52,6 +51,8 @@ class RequestMapping
     {
         $mappingView = new MappingView();
 
+        static::arrangementAliasUrl($url);
+
         $mappingView->setUrl($url);
         $mappingView->setTemplate($option['template']);
         $mappingView->setInitAttribute(isset($option['initAttribute']) ? $option['initAttribute'] : []);
@@ -60,10 +61,22 @@ class RequestMapping
         static::$requestMappingConfig[] = $mappingView;
     }
 
-
-    public static function filter($url, $filterClass)
+    /**
+     * @param $url
+     * @param array $option = [
+     *                  'class' =>  '',             [必须]
+     *                  'method'    =>  ''          [可选]
+     *                  ‘initAttribute’ =>  '..'    []
+     *              ]
+     */
+    public static function filter($url, $option = [])
     {
 
+        $routeFilterConfig = Config::get('ROUTE_FILTER');
+
+        $routeFilterConfig[$url] = $option;
+
+        Config::set('ROUTE_FILTER' , $routeFilterConfig);
     }
 
     /**
@@ -94,7 +107,19 @@ class RequestMapping
      * @param $alias
      * @param $value
      */
-    public static function alias($alias , $value) {
-        static::$alias[ '@' . $alias] = $value;
+    public static function alias($alias, $value)
+    {
+        static::$alias['@' . $alias] = $value;
+    }
+
+    /**
+     * 整理url，将别名加进去
+     * @param $url
+     */
+    private static function arrangementAliasUrl(&$url)
+    {
+        foreach (static::$alias as $key => $value) {
+            $url = str_replace($key, $value, $url);
+        }
     }
 }

@@ -6,7 +6,7 @@
  * Time: 下午1:57
  */
 
-namespace oblood\route\provider;
+namespace oblood\web\provider;
 use oblood\route\MappingController;
 use oblood\route\MappingView;
 

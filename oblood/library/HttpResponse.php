@@ -85,7 +85,8 @@ class HttpResponse extends Object
         }
 
         echo $content;
-        exit;
+
+        App::end();
         //程序到这里就结束了 end
     }
 }

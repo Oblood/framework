@@ -19,8 +19,6 @@ class ObloodRoute extends Object implements RouteManage
 
     public function execute()
     {
-        require BASE_ROOT . DIRECTORY_SEPARATOR . APP_NAME . DIRECTORY_SEPARATOR . 'routes.php';
-
         $requestUrl = App::$httpContext->request->requestUri;
 
         foreach (RequestMapping::$requestMappingConfig as $key => $value) {

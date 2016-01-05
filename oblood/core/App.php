@@ -26,6 +26,8 @@ class App
      */
     public static $httpContext;
 
+    public static $listenerContext;
+
     /**
      * @var Manager
      */
@@ -49,18 +51,16 @@ class App
         //初始化DB
         $this->initDb();
 
+        //初始化监听器
+        $this->initListener();
+
         //设置时区
         date_default_timezone_set(Config::get('DEFAULT_TIMEZONE'));
 
-        foreach(Config::get('LISTENER') as $value) {
+        //执行 AppListener 监听器
+        foreach(static::$listenerContext as $key => $value) {
             if($value instanceof AppListener) {
                 $value->Initialized();
-            }
-        }
-
-        foreach(Config::get('INIT_LOADFILE') as $value) {
-            if(is_file($value)) {
-                require $value;
             }
         }
 
@@ -92,6 +92,15 @@ class App
         $capsule->bootEloquent();
 
         static::$db = $capsule;
+    }
+
+    public function initListener() {
+        foreach(Config::get('LISTENER') as $value) {
+            if(class_exists($value)) {
+                $reflectionClass = new \ReflectionClass($value);
+                static::$listenerContext[$value] = $reflectionClass->newInstance();
+            }
+        }
     }
 
     /**
@@ -138,12 +147,15 @@ class App
         }
     }
 
+
     public static function end() {
-        foreach(Config::get('LISTENER') as $value) {
+
+        foreach(static::$listenerContext as $key => $value) {
             if($value instanceof AppListener) {
-                $value->destroy();
+                $value->Initialized();
             }
         }
+
         exit;
     }
 }
