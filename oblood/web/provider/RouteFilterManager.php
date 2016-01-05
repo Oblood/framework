@@ -16,13 +16,22 @@ use oblood\route\MappingView;
  * Interface RouteControllerFilter
  * @package oblood\route\provider
  */
-interface RouteControllerFilter
+interface RouteFilterManager
 {
     /**
-     * @param MappingController|MappingView $mapping
-     * @return boolean
+     * 拦截
+     * @return boolean 返回true将继续执行，false，程序终止
      */
-    public function doFilter($mapping);
+    public function doFilter();
 
+    /**
+     * 拦截之前执行
+     */
+    public function filterBefore();
+
+    /**
+     * 拦截之后执行
+     */
+    public function filterAlter();
 
 }
