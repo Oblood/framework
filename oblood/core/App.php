@@ -13,6 +13,7 @@ use Illuminate\Database\Capsule\Manager;
 use oblood\library\Config;
 use oblood\library\Debug;
 use oblood\library\HttpContext;
+use oblood\web\provider\AppListener;
 use Whoops\Exception\ErrorException;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -50,6 +51,12 @@ class App
 
         //设置时区
         date_default_timezone_set(Config::get('DEFAULT_TIMEZONE'));
+
+        foreach(Config::get('LISTENER') as $value) {
+            if($value instanceof AppListener) {
+                $value->Initialized();
+            }
+        }
 
         $result = (new Route())->execute();
 
@@ -123,5 +130,14 @@ class App
         if (preg_match('/^(EXP|NEQ|GT|EGT|LT|ELT|OR|XOR|LIKE|NOTLIKE|NOT BETWEEN|NOTBETWEEN|BETWEEN|NOTIN|NOT IN|IN)$/i', $value)) {
             $value .= ' ';
         }
+    }
+
+    public static function end() {
+        foreach(Config::get('LISTENER') as $value) {
+            if($value instanceof AppListener) {
+                $value->destroy();
+            }
+        }
+        exit;
     }
 }
