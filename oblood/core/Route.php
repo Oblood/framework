@@ -15,6 +15,7 @@ use oblood\route\MappingController;
 use oblood\route\MappingView;
 use oblood\route\provider\RouteControllerFilter;
 use oblood\web\Controller;
+use oblood\web\provider\RouteFilterManager;
 use oblood\web\provider\RouteManage;
 use oblood\web\Template;
 use Whoops\Exception\ErrorException;
@@ -24,18 +25,30 @@ class Route extends Object
 
     public function execute()
     {
+        //拦截器
+        $routeFilterConfig = Config::get('ROUTE_FILTER');
+        foreach ($routeFilterConfig as $url => $value) {
+
+            if (isset($value['method']) && $value['method'] != App::$httpContext->request->requestUri) {
+                continue;
+            }
+
+            if ($this->matchingFilter($url)) {
+
+                $filterObject = $this->createFilter($value['class']);
+                $filterObject->filterBefore();
+                if(!$filterObject->doFilter()) {
+                    $filterObject->filterAlter();
+                    return null;
+                } else {
+                    $filterObject->filterAlter();
+                }
+            }
+        }
+
         //筛选路由
         $routeConfig = Config::get('ROUTE');
         $mappingObject = $this->createRoute($routeConfig['class'], $routeConfig)->execute();
-
-        //拦截器
-        $routeControllerFilterConfig = Config::get('ROUTE_CONTROLLER_FILTER');
-        if (isset($routeControllerFilterConfig['class']) && !empty($routeControllerFilterConfig['class'])) {
-            $routeControllerFilter = $this->createFilter($routeControllerFilterConfig['class']);
-            if (!$routeControllerFilter->doFilter($mappingObject)) {
-                return null;
-            }
-        }
 
         //执行控制器
         if ($mappingObject instanceof MappingController) {
@@ -43,7 +56,7 @@ class Route extends Object
         } elseif ($mappingObject instanceof MappingView) {
             return $this->runTemplate($mappingObject);
         }
-        
+
         throw new ErrorException('没有在路由配置 route.php 中找到 ' . App::$httpContext->request->requestUri);
     }
 
@@ -65,7 +78,7 @@ class Route extends Object
     /**
      *
      * @param $clazz
-     * @return RouteControllerFilter object
+     * @return RouteFilterManager object
      * @throws ErrorException
      */
     protected function createFilter($clazz)
@@ -74,9 +87,24 @@ class Route extends Object
             $reflectionClass = new \ReflectionClass($clazz);
             return $reflectionClass->newInstance();
         } else {
-            throw new ErrorException('没有找到 :' . $clazz);
+            throw new ErrorException('没有找到 : ' . $clazz);
         }
     }
+
+    protected function matchingFilter($url)
+    {
+        $array = ['.', '/', '+', '*', '?', '[', '^', ']', '$', '(', ')', '{', '}', '=', '!', '<', '>', '|', ':'];
+        foreach ($array as $value) {
+            if (strpos($url, $value) !== false) {
+                $url = str_replace($value, '\\' . $value, $url);
+            }
+        }
+
+        $pattern = '/^' . $url . '(.*)$/';
+
+        return preg_match($pattern, App::$httpContext->request->requestUri) ? true : false;
+    }
+
 
     /**
      * @param $clazz
@@ -117,7 +145,7 @@ class Route extends Object
     {
         $controller = $this->createController($mappingObject->getController());
 
-        $this->initControllerAttribute($controller , $mappingObject->getInitAttribute());
+        $this->initControllerAttribute($controller, $mappingObject->getInitAttribute());
 
         if (!method_exists($controller, $mappingObject->getAction())) {
             throw new ErrorException('action 没有找到');
@@ -132,7 +160,7 @@ class Route extends Object
             }
         }
 
-        $result = call_user_func_array([$controller, $mappingObject->getAction()],$mappingObject->getActionParams());
+        $result = call_user_func_array([$controller, $mappingObject->getAction()], $mappingObject->getActionParams());
 
         //执行action的后置方法
         if (method_exists($controller, Config::get('ACTION_AFTER') . $mappingObject->getAction())) {
@@ -149,11 +177,12 @@ class Route extends Object
      * @return mixed|string
      * @throws ErrorException
      */
-    protected function runTemplate($mappingObject) {
+    protected function runTemplate($mappingObject)
+    {
 
         $template = new Template();
 
-        foreach($mappingObject->getInitAttribute() as $key => $value) {
+        foreach ($mappingObject->getInitAttribute() as $key => $value) {
             $template->$key = $value;
         }
 
