@@ -59,3 +59,7 @@ RequestMapping::controller('/post' , [
     'action' => 'save',
     'method'    =>  RequestMethod::POST
 ]);
+
+RequestMapping::filter('/post/' , [
+    'class' =>  'application\Filter',
+]);

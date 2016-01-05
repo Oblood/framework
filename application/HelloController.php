@@ -2,9 +2,8 @@
 
 namespace application;
 
-use oblood\route\ObloodRoute;
 use oblood\web\Controller;
-use Whoops\Exception\ErrorException;
+
 
 
 /**
@@ -21,8 +20,6 @@ class HelloController extends Controller
 
     public function say()
     {
-
-
         $this->assign('title', $this->title);
         $this->assign('body', $this->body);
         return $this->display('index');
