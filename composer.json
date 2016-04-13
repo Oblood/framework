@@ -10,7 +10,6 @@
     }
   ],
   "require": {
-    "filp/damnit": "1.1.10",
-    "illuminate/database": "v5.2.0"
+    
   }
 }
