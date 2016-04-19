@@ -27,6 +27,8 @@ class Request extends Facade
      */
     protected $methodParam = '_method';
 
+//    protected $
+
     public function isAjax()
     {
         return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
@@ -123,5 +125,10 @@ class Request extends Facade
     public function getUrl()
     {
         return $this->getHost() . $this->getUri();
+    }
+
+    protected function filterParams($value)
+    {
+
     }
 }
