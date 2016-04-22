@@ -11,6 +11,10 @@
   ],
   "autoload": {
     "psr-4": {
+      "OBlood\\Foundation\\Facades\\" : "oblood/Foundation/Facades/",
+      "OBlood\\Foundation\\" : "oblood/Foundation/",
+      "OBlood\\Http\\" : "oblood/Http/",
+      "OBlood\\Http\\Facades\\" : "oblood/Http/Facades/"
     }
   },
   "require": {
