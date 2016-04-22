@@ -7,3 +7,4 @@
 .idea/workspace.xml
 composer.phar
 composer.lock
+.idea/web.iml

@@ -11,8 +11,6 @@
   ],
   "autoload": {
     "psr-4": {
-      "Oblood\\Support\\Facade\\": "oblood/support/facade",
-      "Oblood\\Foundation\\" : "oblood/foundation"
     }
   },
   "require": {
