@@ -34,6 +34,8 @@ interface HttpRequest
 
     public function getParameters();
 
+    public function hasParameter($name);
+
     public function getRemoteAddr();
 
     public function getRemoteHost();

@@ -151,4 +151,9 @@ class RequestFacade extends Facade implements HttpRequest
     {
         return static::$action;
     }
+
+    public function hasParameter($name)
+    {
+        return isset($this->parameters[$name]);
+    }
 }

@@ -13,8 +13,9 @@ use OBlood\Http\HttpRequest;
 
 class Welcome
 {
-    public function index(HttpRequest $request)
+
+    public function index($s = 1 , HttpRequest $request)
     {
-        return $request::getAction();
+        return $s;
     }
 }

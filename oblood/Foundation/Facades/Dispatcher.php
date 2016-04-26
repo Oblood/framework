@@ -119,7 +119,24 @@ class Dispatcher extends OBlood
         }
 
         $controller = static::$app->make($controller);
-        return static::$app->call([$controller, $request::getAction()]);
+
+        if (method_exists($controller, $request::getAction())) {
+            $reflectionClass = new \ReflectionClass($controller);
+            $method = $reflectionClass->getMethod($request::getAction());
+
+            $methodParameters = [];
+            foreach ($method->getParameters() as $value) {
+                if ($value->getClass() != null) {
+                    $methodParameters[$value->getName()] = static::$app->make($value->getClass()->getName());
+                } else if ($request->hasParameter($value->getName())) {
+                    $methodParameters[$value->getName()] = $request->getParameter($value->getName());
+                }
+            }
+
+            return call_user_func_array([$controller , $request::getAction()] , $methodParameters);
+        }
+
+        throw new RouteException('action not found');
     }
 
     /**
