@@ -57,6 +57,18 @@ class OBlood implements \ArrayAccess
         }
     }
 
+    /**
+     * @param array $data 需要装载的数据
+     */
+    protected function loadData(array $data = [])
+    {
+        foreach ($data as $name => $value) {
+            if (property_exists($this , $name)) {
+                $this->$name = $value;
+            }
+        }
+    }
+
     public function __get($name)
     {
         return $this->offsetGet($name);

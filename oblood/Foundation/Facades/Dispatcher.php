@@ -23,9 +23,11 @@ class Dispatcher extends OBlood
 {
     protected $controllerNamespace;
 
+    protected $defaultRoute;
+
     public function Dispatcher($bootstrap)
     {
-        $this->controllerNamespace = array_shift($bootstrap)['controllerNamespace'];
+        $this->loadData(array_shift($bootstrap));
     }
 
     /**
@@ -69,7 +71,8 @@ class Dispatcher extends OBlood
     public function handleAction(HttpRequest $request)
     {
         $route = \FastRoute\simpleDispatcher(function (RouteCollector $route) {
-            $route->addRoute('*', '{controller:(?![/?]{2,})[a-zA-Z/]{1,}}/{action:[a-zA-Z]{1}[a-zA-Z0-9]{0,}}', '{controller}::action');
+            $route->addRoute('*', '/', $this->defaultRoute);
+            $route->addRoute('*', '{controller:(?![/?]{2,})[a-zA-Z/]{1,}}/{action:[a-zA-Z]{1}[a-zA-Z0-9]{0,}}', '');
         });
 
         $result = $route->dispatch($request->getMethod(), $request->getBaseURI());
@@ -77,12 +80,28 @@ class Dispatcher extends OBlood
             throw new RouteException('invalid url');
         }
 
-        list($handle, $controller) = $result;
-
-        $request::$action = $controller['action'];
-        $request::$controller = $controller['controller'];
+        $this->resolveAction($result, $request);
 
         return $this->runController($request);
+    }
+
+    /**
+     * 确定控制器，并且将处理好的控制器名称和操作名称丢到request里面
+     * @param $dispatchResult
+     * @param HttpRequest $request
+     */
+    protected function resolveAction($dispatchResult, HttpRequest $request)
+    {
+        list($handle, $parameters) = $dispatchResult;
+
+        if (!empty($handle)) {
+            $handle = explode('/', $handle);
+            $parameters['action'] = array_pop($handle);
+            $parameters['controller'] = implode('/', $handle);
+        }
+
+        $request::$action = $parameters['action'];
+        $request::$controller = $parameters['controller'];
     }
 
     /**
@@ -100,7 +119,6 @@ class Dispatcher extends OBlood
         }
 
         $controller = static::$app->make($controller);
-
         return static::$app->call([$controller, $request::getAction()]);
     }
 
