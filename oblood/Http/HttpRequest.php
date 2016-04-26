@@ -16,13 +16,15 @@ interface HttpRequest
 
     public function getCookie();
 
-    public function getServer();
-
     public function getMethod();
 
     public function getQueryString();
 
-    public function getRequestURL();
+    public function getBaseURI();
+
+    public function getRequestURI();
+
+    public function getReferrer();
 
     public function getServerName();
 
@@ -35,4 +37,8 @@ interface HttpRequest
     public function getRemoteAddr();
 
     public function getRemoteHost();
+
+    public static function getController();
+
+    public static function getAction();
 }

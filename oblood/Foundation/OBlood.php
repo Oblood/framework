@@ -27,7 +27,7 @@ class OBlood implements \ArrayAccess
          * 实例化容器，并且保存在此载体中
          */
         if (empty(static::$app)) {
-            static::$app = Application::getInstance();
+            static::$app = new Application();
         }
 
         /**
@@ -85,5 +85,10 @@ class OBlood implements \ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->attributes[$offset]);
+    }
+
+    public static function getInstance()
+    {
+        return new static(func_get_args());
     }
 }

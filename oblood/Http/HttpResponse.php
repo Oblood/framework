@@ -12,22 +12,33 @@ namespace OBlood\Http;
 interface HttpResponse
 {
 
-    public function getHeaders();
-
     /**
-     * 设置响应头
+     * 添加响应头
      * @param $name
      * @param $value
      * @return mixed
      */
-    public function setHeader($name , $value);
+    public function addHeader($name, $value);
 
     /**
      * 设置状态码
      * @param $num
      * @return mixed
      */
-    public function setStatus($num);
+    public function setStatusCode($num);
+
+    /**
+     * 设置编码
+     * @param $charset
+     * @return void
+     */
+    public function setCharset($charset);
+
+    /**
+     * 发送请求头
+     * @return void
+     */
+    public function sendHeaders();
 
     /**
      * 发送结果到客户端
@@ -35,5 +46,10 @@ interface HttpResponse
      */
     public function send();
 
-    public function redirect($url);
+    /**
+     * 跳转
+     * @param $url
+     * @return mixed
+     */
+    public static function redirect($url);
 }

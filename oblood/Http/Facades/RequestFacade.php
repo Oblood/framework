@@ -19,13 +19,25 @@ use OBlood\Http\HttpRequest;
  *
  * @property String method          //请求方式GET,POST....
  * @property String queryString     //查询字符串
- * @property String requestUrl      //请求url
+ * @property String baseURI         //请求url
+ * @property String requestURI      //请求url带查询字符串
+ * @property String referrer        //上一页面url
+ * @property string serverName      //服务名称
+ * @property int port               //端口号
+ * @property string remoteAddr      //请求地址
+ * @property string remoteHost      //请求主机
  */
 class RequestFacade extends Facade implements HttpRequest
 {
 
+    public static $controller;
+
+    public static $action;
+
+    //请求参数
     protected $parameters;
 
+    //方法欺骗
     protected $methodParam = '_method';
 
     protected function RequestFacade()
@@ -35,7 +47,7 @@ class RequestFacade extends Facade implements HttpRequest
 
     public function getMethod()
     {
-        if (!is_null($this->getParameter($this->methodParam))) {
+        if (null != $this->getParameter($this->methodParam)) {
             return strtoupper($this->getParameter($this->methodParam));
         }
 
@@ -47,27 +59,57 @@ class RequestFacade extends Facade implements HttpRequest
             return strtoupper($_SERVER['REQUEST_METHOD']);
         }
 
-        throw new \Exception;
+        return 'GET';
     }
 
     public function getQueryString()
     {
-
+        return isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : null;
     }
 
-    public function getRequestURL()
+    public function getBaseURI()
     {
-        // TODO: Implement getRequestURL() method.
+        if(strpos($this->requestURI , '?')) {
+            return explode('?' , $this->requestURI)[0];
+        } else {
+            return $this->requestURI;
+        }
+    }
+
+    public function getRequestURI()
+    {
+        if (isset($_SERVER['HTTP_X_REWRITE_URL'])) { // IIS
+            $requestUri = $_SERVER['HTTP_X_REWRITE_URL'];
+        } elseif (isset($_SERVER['REQUEST_URI'])) {
+            $requestUri = $_SERVER['REQUEST_URI'];
+            if ($requestUri !== '' && $requestUri[0] !== '/') {
+                $requestUri = preg_replace('/^(http|https):\/\/[^\/]+/i', '', $requestUri);
+            }
+        } elseif (isset($_SERVER['ORIG_PATH_INFO'])) { // IIS 5.0 CGI
+            $requestUri = $_SERVER['ORIG_PATH_INFO'];
+            if (!empty($_SERVER['QUERY_STRING'])) {
+                $requestUri .= '?' . $_SERVER['QUERY_STRING'];
+            }
+        } else {
+            throw new \Exception('Unable to determine the request URI.');
+        }
+
+        return $requestUri;
+    }
+
+    public function getReferrer()
+    {
+        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
     }
 
     public function getServerName()
     {
-        // TODO: Implement getServerName() method.
+        return $_SERVER['SERVER_NAME'];
     }
 
     public function getServerPort()
     {
-        // TODO: Implement getServerPort() method.
+        return (int) $_SERVER['SERVER_PORT'];
     }
 
     public function getParameter($name, $default = null)
@@ -77,17 +119,17 @@ class RequestFacade extends Facade implements HttpRequest
 
     public function getParameters()
     {
-
+        return $this->parameters;
     }
 
     public function getRemoteAddr()
     {
-        // TODO: Implement getRemoteAddr() method.
+        return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
     }
 
     public function getRemoteHost()
     {
-
+        return isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : null;
     }
 
     public function getSession()
@@ -100,8 +142,13 @@ class RequestFacade extends Facade implements HttpRequest
         // TODO: Implement getCookie() method.
     }
 
-    public function getServer()
+    public static function getController()
     {
-        // TODO: Implement getServer() method.
+        return static::$controller;
+    }
+
+    public static function getAction()
+    {
+        return static::$action;
     }
 }

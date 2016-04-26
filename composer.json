@@ -14,11 +14,13 @@
       "OBlood\\Foundation\\Facades\\" : "oblood/Foundation/Facades/",
       "OBlood\\Foundation\\" : "oblood/Foundation/",
       "OBlood\\Http\\" : "oblood/Http/",
-      "OBlood\\Http\\Facades\\" : "oblood/Http/Facades/"
+      "OBlood\\Http\\Facades\\" : "oblood/Http/Facades/",
+      "OBlood\\Exception\\" : "oblood/Exception/"
     }
   },
   "require": {
     "illuminate/database": "v5.2.28",
-    "nikic/fast-route": "v0.8.0"
+    "nikic/fast-route": "v0.8.0",
+    "filp/whoops": "2.1.2"
   }
 }

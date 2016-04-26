@@ -1,13 +1,14 @@
 <?php
 
-require dirname(dirname(__FILE__)) . '/vendor/autoload.php';
+define('BASIC_ROOT' , dirname(dirname(__FILE__)));
 
-$dispatcher = new \OBlood\Foundation\Facades\Dispatcher();
+require BASIC_ROOT . '/vendor/autoload.php';
 
-$dispatcher->request();
+$bootstrap = require BASIC_ROOT . '/config/bootstrap.php';
 
-$request = new \OBlood\Http\Facades\RequestFacade();
+$dispatcher = \OBlood\Foundation\Facades\Dispatcher::getInstance($bootstrap);
 
-//var_dump($request->getMethod());
-echo "<pre>";
-var_dump($request->queryString);
+$response = $dispatcher::$app->call([$dispatcher , 'request']);
+
+$response->send();
+

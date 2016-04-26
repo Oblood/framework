@@ -6,12 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
     'OBlood\\Http\\Facades\\' => array($baseDir . '/oblood/Http/Facades'),
     'OBlood\\Http\\' => array($baseDir . '/oblood/Http'),
     'OBlood\\Foundation\\Facades\\' => array($baseDir . '/oblood/Foundation/Facades'),
     'OBlood\\Foundation\\' => array($baseDir . '/oblood/Foundation'),
+    'OBlood\\Exception\\' => array($baseDir . '/oblood/Exception'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Database\\' => array($vendorDir . '/illuminate/database'),
     'Illuminate\\Contracts\\' => array($vendorDir . '/illuminate/contracts'),
